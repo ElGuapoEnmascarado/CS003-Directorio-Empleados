@@ -1,0 +1,166 @@
+@model List<EmployeeApp.Models.Employee>
+
+@{
+    ViewData["Title"] = "Directorio de Empleados";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Directorio de Empleados</h2>
+            <p class="text-muted mb-0">
+                Empleados registrados actualmente
+            </p>
+        </div>
+
+        <button type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#employeeModal">
+            Nuevo empleado
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Salario</th>
+                            <th>Departamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var employee in Model)
+                            {
+                                <tr>
+                                    <td>@employee.Id</td>
+                                    <td>@employee.Name</td>
+                                    <td>@employee.Position</td>
+                                    <td>$@employee.Salary.ToString("N2")</td>
+                                    <td>@employee.Department</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center text-muted py-4">
+                                    No hay empleados registrados.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade"
+     id="employeeModal"
+     tabindex="-1"
+     aria-labelledby="employeeModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalLabel">
+                    Registrar empleado
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div id="messageContainer"></div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">
+                        Nombre
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           maxlength="100">
+                </div>
+
+                <div class="mb-3">
+                    <label for="position" class="form-label">
+                        Puesto
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="position"
+                           maxlength="100">
+                </div>
+
+                <div class="mb-3">
+                    <label for="salary" class="form-label">
+                        Salario
+                    </label>
+
+                    <input type="number"
+                           class="form-control"
+                           id="salary"
+                           min="0"
+                           step="0.01">
+                </div>
+
+                <div class="mb-3">
+                    <label for="department" class="form-label">
+                        Departamento
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="department"
+                           maxlength="100">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        id="btnSaveEmployee"
+                        onclick="saveEmployee()">
+                    Guardar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/employee.js" asp-append-version="true"></script>
+}
